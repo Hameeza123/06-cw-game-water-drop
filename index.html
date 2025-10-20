@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Drop Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="logo-sidebar">
+        <img src="img/cw_logo.png" alt="Charity Water Logo" class="cw-logo">
+        <!-- Add more logos below as needed -->
+        <!-- Example: <img src="URL_TO_ANOTHER_LOGO" alt="Other Logo" class="cw-logo"> -->
+    </div>
+    <div class="game-wrapper">
+        <h1 class="game-title">Water Drop</h1>
+        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        <div class="score-panel">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="timer">Time: <span id="time">30</span>s</div>
+            <button id="start-btn">Start Game</button>
+        </div>
+        
+        <div id="game-container">
+            <div id="bucket"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

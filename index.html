@@ -4,28 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Drop Game</title>
+
+    <!-- Font chosen to resemble charity: water brand -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="logo-sidebar">
         <img src="img/cw_logo.png" alt="Charity Water Logo" class="cw-logo">
-        <!-- Add more logos below as needed -->
-        <!-- Example: <img src="URL_TO_ANOTHER_LOGO" alt="Other Logo" class="cw-logo"> -->
     </div>
+
     <div class="game-wrapper">
         <h1 class="game-title">Water Drop</h1>
         <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+
         <div class="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
             <div class="timer">Time: <span id="time">30</span>s</div>
+
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty" aria-label="Select difficulty">
+                <option value="easy">Easy</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Hard</option>
+            </select>
+
             <button id="start-btn">Start Game</button>
         </div>
-        
-        <div id="game-container">
-            <div id="bucket"></div>
+
+        <div id="game-info" class="game-info" aria-live="polite"></div>
+
+        <div id="game-container" tabindex="0" aria-label="Game area">
+            <div id="bucket" role="img" aria-label="Bucket"></div>
         </div>
     </div>
-    
+
+    <footer class="site-footer">
+        <p>Learn more or donate to charity: water</p>
+        <a href="https://www.charitywater.org/" target="_blank" rel="noopener" id="cw-home">charity: water</a>
+        <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener" id="cw-donate">Donate</a>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

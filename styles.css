@@ -18,169 +18,271 @@ Fonts:
 
 */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Load a friendly web font as a close fallback for Proxima/Avenir */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Georgia:ital@0;1&display=swap');
+
+:root{
+  --bg:#f7fbff;
+  --panel:#fff;
+  --accent:#f58220;
+  --good:#4fc3f7;
+  --bad:#b71c1c;
+  --font-sans: "Proxima Nova", "Avenir", "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-serif: "Georgia", "Times New Roman", serif;
+  --muted:#6c7786;
+  --glass: rgba(255,255,255,0.7);
+  --radius:12px;
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+/* Reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  background:
+    radial-gradient(900px 380px at 8% 8%, rgba(79,195,247,0.06), transparent 10%),
+    linear-gradient(180deg,#eaf6ff 0%,var(--bg) 100%);
+  color:#14232a;
+  min-height:100vh;
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+  padding:28px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-.game-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+/* Sidebar */
+.logo-sidebar{
+  width:120px;
+  display:flex;
+  align-items:flex-start;
+  flex-direction:column;
+  gap:12px;
+}
+.cw-logo{ width:100%; max-width:110px; object-fit:contain; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.12)); }
+
+/* Main */
+.game-wrapper{ flex:1; max-width:980px; margin:0 auto; }
+
+.game-title{
+  margin:0 0 6px 0;
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:0.3px;
+  font-size:30px;
+  text-transform:uppercase;
+  font-family: var(--font-sans);
+  display:inline-block;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.6);
+}
+.game-tagline{
+  margin:0 0 12px 0;
+  color:var(--muted);
+  font-weight:400;
+  letter-spacing:0.2px;
+  font-size:14px;
 }
 
-.score-panel {
-    display: flex;
-    justify-content: space-between;  /* Space between score and button */
-    align-items: center;
-    width: 800px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Score panel */
+.score-panel{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:12px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.95), var(--panel));
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(20,35,42,0.06);
+  border:1px solid rgba(0,0,0,0.04);
+}
+.score-panel .score, .score-panel .timer{ font-weight:700; color:#12333f; }
+.score-panel label{ color:var(--muted); font-size:14px; }
+#difficulty{ padding:6px; border-radius:6px; border:1px solid rgba(0,0,0,0.06); background:transparent; font-family:var(--font-sans); }
+
+/* Button */
+#start-btn{
+  margin-left:6px;
+  background:linear-gradient(180deg,var(--accent),#ff7a15);
+  color:white;
+  border:0;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+  box-shadow:0 8px 24px rgba(245,130,32,0.18);
+  transition:transform .14s ease, box-shadow .14s ease, opacity .12s;
+}
+#start-btn:active{ transform:translateY(1px) scale(.998) }
+#start-btn[disabled]{ opacity:.6; cursor:not-allowed }
+
+/* Info */
+#game-info{ margin-bottom:10px; color:var(--muted); font-size:14px; }
+
+/* Game area */
+#game-container{
+  position:relative;
+  height:560px;
+  border-radius:var(--radius);
+  background:
+    radial-gradient(600px 200px at 80% 10%, rgba(255,255,255,0.12), transparent 10%),
+    linear-gradient(180deg,#e6f7ff,#d7f0ff 60%);
+  overflow:hidden;
+  border:2px solid rgba(0,0,0,0.04);
+  box-shadow:0 20px 40px rgba(16,36,52,0.06);
+  padding:6px;
 }
 
-.timer {
-    flex: 0 1 auto;
-    font-size: 24px;
-    font-weight: bold;
+/* Water surface subtle wave at top */
+#game-container::before{
+  content:'';
+  position:absolute;
+  left:-10%;
+  right:-10%;
+  top:-6%;
+  height:22%;
+  background: radial-gradient(800px 60px at 50% 0%, rgba(255,255,255,0.12), transparent 45%);
+  transform: rotate(-1.6deg);
+  pointer-events:none;
+  opacity:0.95;
 }
 
-#game-container {
-    width: 800px;
-    height: 600px;
-    background-color: #e6f7ff;
-    border: 2px solid #333;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
+/* Bucket styling */
+#bucket{
+  position:absolute;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:140px;
+  height:70px;
+  background:linear-gradient(180deg,#ff9a3d,#ff7a15);
+  border-radius:14px 14px 8px 8px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.18);
+  border:5px solid rgba(255,255,255,0.12);
+  transition:transform .12s ease;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  overflow:visible;
+}
+/* bucket gloss */
+#bucket::after{
+  content:'';
+  position:absolute;
+  left:10%;
+  top:6px;
+  width:80%;
+  height:22px;
+  border-radius:8px;
+  background:linear-gradient(90deg, rgba(255,255,255,0.28), rgba(255,255,255,0.02));
+  transform:skewX(-8deg);
+  pointer-events:none;
+}
+/* bucket mouth shadow */
+#bucket::before{
+  content:'';
+  position:absolute;
+  left:4%;
+  right:4%;
+  top:16px;
+  height:10px;
+  border-radius:6px;
+  background:linear-gradient(180deg, rgba(0,0,0,0.09), rgba(0,0,0,0));
+  pointer-events:none;
 }
 
-
-#start-btn {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+/* Drops base */
+.drop{
+  position:absolute;
+  width:28px;
+  height:36px;
+  pointer-events:auto;
+  cursor:pointer;
+  will-change:transform,top,opacity;
+  transition:transform .18s ease, opacity .18s ease;
+  display:block;
 }
 
-#start-btn:hover {
-    background-color: #45a049;
+/* teardrop shapes using pseudo-element so they remain crisp */
+.drop::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translateX(-50%) rotate(14deg);
+  width:18px;
+  height:28px;
+  border-radius:10px 10px 10px 10px/14px 14px 8px 8px;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+  display:block;
+  transition:transform .16s ease, opacity .18s ease;
 }
 
-.score {
-    flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
-    font-size: 24px;
-    font-weight: bold;
+/* colors for good/bad */
+.drop.good::before{ background:linear-gradient(180deg,var(--good),#1aa7e0); box-shadow:0 3px 10px rgba(26,167,224,0.18); }
+.drop.bad::before{ background:linear-gradient(180deg,#ff7b7b,var(--bad)); box-shadow:0 3px 10px rgba(177,28,28,0.18); }
+
+/* subtle floating sway while falling */
+@keyframes sway {
+  0% { transform: translateX(0) rotate(6deg); }
+  50% { transform: translateX(6px) rotate(-6deg); }
+  100% { transform: translateX(0) rotate(6deg); }
+}
+.drop{ animation: sway 3s ease-in-out infinite; }
+
+/* pop when collected */
+.pop{ animation:pop .28s ease-out forwards; }
+@keyframes pop{
+  0%{ transform:scale(1); opacity:1 }
+  100%{ transform:scale(1.6) translateY(-12px); opacity:0 }
 }
 
-.water-drop {
-    position: absolute;
-    top: 0;
-    width: 60px;  /* increased from 40px */
-    height: 60px; /* increased from 40px */
-    background-color: #0099ff;
-    border-radius: 50%;
-    animation: fall linear, dropFall linear forwards;
-    animation-duration: 4s, 2s;
-    transform-origin: center;
-    cursor: pointer;
-    padding: 15px;  /* Add padding for larger click area */
-    margin: -15px;  /* Offset padding to maintain visual size */
-    transition: transform 0.1s ease;  /* Smooth hover effect */
+/* little score bubble when collecting (uses pseudo-element on bucket) */
+.bucket-score {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:-18px;
+  background:rgba(255,255,255,0.95);
+  color:#12333f;
+  padding:6px 10px;
+  border-radius:20px;
+  font-weight:700;
+  font-size:13px;
+  box-shadow:0 8px 20px rgba(16,36,52,0.08);
+  pointer-events:none;
+  opacity:0;
+  transform-origin:center;
+  transition:opacity .18s ease, transform .18s ease;
 }
 
-.water-drop:hover {
-    transform: scale(1.1);  /* Slight grow effect on hover */
+/* footer */
+.site-footer{
+  margin-top:18px;
+  padding:14px;
+  text-align:center;
+  border-top:1px solid rgba(0,0,0,0.04);
+  font-family:var(--font-sans);
+  color:var(--muted);
+}
+.site-footer a{
+  color:var(--accent);
+  margin:0 8px;
+  text-decoration:none;
+  font-weight:700;
+  letter-spacing:0.2px;
 }
 
-.bad-drop {
-    background-color: #ff4444;
+/* responsive */
+@media (max-width:760px){
+  body{ padding:14px; }
+  .logo-sidebar{ display:none; }
+  .game-title{ font-size:20px; }
+  #game-container{ height:480px; }
 }
 
-.game-title {
-    color: #131313;
-    font-size: 48px;
-    margin-top: 0;
-    margin-bottom: 5px;  /* reduced from 20px */
-    text-align: center;
-}
+/* optional serif usage */
+h1.serif, .story { font-family:var(--font-serif); }
 
-.game-tagline {
-    color: #666;
-    font-size: 18px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-#bucket {
-    position: absolute;
-    bottom: 0;
-    left: 370px; /* Centered for 800px width */
-    width: 60px;
-    height: 60px;
-    background-color: #FFC907;
-    border-radius: 0 0 30px 30px;
-    border: 3px solid #333;
-    z-index: 10;
-    transition: left 0.2s;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-@keyframes dropFall {
-    from {
-        transform: translateY(-20px);
-    }
-    to {
-        transform: translateY(600px);
-    }
-}
-
-@keyframes fall {
-    from { top: 0; }
-    to { top: 90%; }
-}
-
-@media (max-width: 850px) {
-    .game-wrapper, .score-panel, #game-container {
-        width: 95vw;
-    }
-    
-    #game-container {
-        height: 70vh;
-    }
-}
-
-.logo-sidebar {
-    position: absolute;
-    left: 20px;
-    top: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    z-index: 100;
-}
-
-.cw-logo {
-    width: 60px;
-    height: auto;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    padding: 8px;
-}
+/* end of file */
